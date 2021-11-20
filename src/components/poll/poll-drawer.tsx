@@ -2,13 +2,12 @@ import { useEffect, useRef } from 'react';
 import { PollGeneratorChoiceInfo, PollGeneratorInput, Reaction } from '@/types/common';
 import styles from '@/styles/canvas.module.css';
 import {
-  drawReaction,
+  drawReactions,
   drawTitle,
   formatChoicesForDisplay,
   generateReactionConfigs,
   getContext,
 } from '@/utils/poll-drawer';
-import { REACTION_PICTURE_PATH_MAPS } from '@/utils/constants';
 import { PollGeneratorChoice } from '@/components/poll/poll-generator-choice';
 
 type Props = {
@@ -50,22 +49,12 @@ const PollDrawer = ({ generatorState, onDownloadButtonClick, onPollChoiceChange,
 
     drawTitle(titleContext, generatorState.title.toUpperCase() || 'Poll Title');
 
-    for (const choice of selectedChoices) {
-      const config = reactionConfigs[choice.reaction];
+    drawReactions(selectedChoices, reactionConfigs).then(() => {
+      mainContext.clearRect(0, 0, 640, 360);
+      mainContext.fillStyle = '#fff';
+      // mainContext.fillRect(0, 0, 640, 360);
+      mainContext.drawImage(titleContext.canvas, 20, 20, 600, 50);
 
-      drawReaction(
-        config.context,
-        choice.text.toUpperCase(),
-        config.color,
-        REACTION_PICTURE_PATH_MAPS[choice.reaction].mini,
-      );
-    }
-
-    // mainContext.clearRect(0, 0, 640, 360);
-    mainContext.fillStyle = '#fff';
-    mainContext.fillRect(0, 0, 640, 360);
-    mainContext.drawImage(titleContext.canvas, 20, 20, 600, 50);
-    setTimeout(() => {
       const xPosition = 640 / 2 - (120 * selectedChoices.length) / 2;
 
       selectedChoices.forEach((choice, index) => {
@@ -74,7 +63,7 @@ const PollDrawer = ({ generatorState, onDownloadButtonClick, onPollChoiceChange,
         const x = xPosition + 120 * index;
         mainContext.drawImage(config.context.canvas, x, 90, 120, 340);
       });
-    }, 400);
+    });
   }, [generatorState]);
 
   return (

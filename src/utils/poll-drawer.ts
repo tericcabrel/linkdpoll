@@ -1,4 +1,11 @@
-import { GenerateReactionConfigsArgs, PollGeneratorInput, Reaction, ReactionConfig } from '@/types/common';
+import {
+  EnhancedChoice,
+  GenerateReactionConfigsArgs,
+  PollGeneratorInput,
+  Reaction,
+  ReactionConfig,
+} from '@/types/common';
+import { REACTION_PICTURE_PATH_MAPS } from '@/utils/constants';
 
 const formatChoicesForDisplay = (choices: PollGeneratorInput['choices']) => {
   const keys = Object.keys(choices) as Reaction[];
@@ -87,7 +94,22 @@ const drawLikeTitle = (context: CanvasRenderingContext2D, text: string) => {
   }
 };
 
-const drawReaction = (context: CanvasRenderingContext2D, text: string, color: string, pictureURL: string) => {
+const loadPicture = (context: CanvasRenderingContext2D, pictureURL: string) => {
+  return new Promise((resolve, reject) => {
+    const image = new Image(50, 50);
+    image.addEventListener(
+      'load',
+      () => {
+        context.drawImage(image, 35, 190);
+        resolve({});
+      },
+      false,
+    );
+    image.src = pictureURL;
+  });
+};
+
+const drawReaction = async (context: CanvasRenderingContext2D, text: string, color: string, pictureURL: string) => {
   context.fillStyle = '#000';
   drawLikeTitle(context, text);
   context.fillStyle = color;
@@ -97,15 +119,23 @@ const drawReaction = (context: CanvasRenderingContext2D, text: string, color: st
   context.lineTo(75, 90);
   context.fill();
   context.fillRect(58.5, 90, 3, 90);
-  const image = new Image(50, 50);
-  image.addEventListener(
-    'load',
-    () => {
-      context.drawImage(image, 35, 190);
-    },
-    false,
-  );
-  image.src = pictureURL;
+
+  await loadPicture(context, pictureURL);
+};
+
+const drawReactions = async (selectedChoices: EnhancedChoice[], reactionConfigs: Record<Reaction, ReactionConfig>) => {
+  const promises = selectedChoices.map(async (choice) => {
+    const config = reactionConfigs[choice.reaction];
+
+    await drawReaction(
+      config.context,
+      choice.text.toUpperCase(),
+      config.color,
+      REACTION_PICTURE_PATH_MAPS[choice.reaction].mini,
+    );
+  });
+
+  return Promise.all(promises);
 };
 
 const generateReactionConfigs = ({
@@ -139,4 +169,4 @@ const generateReactionConfigs = ({
   };
 };
 
-export { formatChoicesForDisplay, getContext, drawLikeTitle, drawReaction, generateReactionConfigs };
+export { formatChoicesForDisplay, getContext, drawLikeTitle, drawReactions, generateReactionConfigs };

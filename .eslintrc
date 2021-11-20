@@ -27,7 +27,8 @@
         "specialLink": ["hrefLeft", "hrefRight"],
         "aspects": ["invalidHref", "preferButton"]
       }
-    ]
+    ],
+    "max-len": ["error", 120]
   },
   "overrides": [
     {

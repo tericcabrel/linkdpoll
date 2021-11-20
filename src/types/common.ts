@@ -43,3 +43,5 @@ export type GenerateReactionConfigsArgs = {
   insightfulContext: CanvasRenderingContext2D;
   curiousContext: CanvasRenderingContext2D;
 };
+
+export type EnhancedChoice = PollGeneratorChoiceInfo & { reaction: Reaction };
