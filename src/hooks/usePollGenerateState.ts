@@ -13,15 +13,15 @@ const initialState: PollGeneratorInput = {
       text: 'OFFICE',
     },
     love: {
-      checked: false,
+      checked: true,
       text: 'BOTH',
     },
     insightful: {
-      checked: false,
+      checked: true,
       text: 'NONE',
     },
     curious: {
-      checked: false,
+      checked: true,
       text: "I'M JUST CURIOUS",
     },
   },
