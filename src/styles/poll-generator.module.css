@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+}
+.canvas {
+  border: solid 2px #000;
+}
+.pollChoice {
+  width: 100%;
+  display: flex;
+  margin-top: 40px;
+}
+.pollAction {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  width: 100%;
+}
+.inputTitle {
+  width: 250px;
+}

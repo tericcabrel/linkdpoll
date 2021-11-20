@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import Image from 'next/image';
 
 import styles from '@/styles/Home.module.css';
-import { PollGenerator } from '@/components/poll/PollGenerator';
+import { PollGenerator } from '@/components/poll/poll-generator';
 
 export default function Home() {
   return (
@@ -16,7 +15,6 @@ export default function Home() {
       <main className={styles.main}>
         <PollGenerator />
       </main>
-      <Image src="/images/like.png" alt="Like icon" width={72} height={72} />
     </div>
   );
 }
