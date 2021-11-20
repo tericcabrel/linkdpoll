@@ -4,17 +4,3 @@
   align-items: center;
   padding-bottom: 30px;
 }
-.pollChoice {
-  width: 100%;
-  display: flex;
-  margin-top: 40px;
-}
-.pollAction {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-  width: 100%;
-}
-.inputTitle {
-  width: 250px;
-}

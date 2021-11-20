@@ -17,3 +17,17 @@
   border: solid 2px hotpink;
   display: none;
 }
+.pollChoice {
+  width: 100%;
+  display: flex;
+  margin-top: 40px;
+}
+.pollAction {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  width: 100%;
+}
+.inputTitle {
+  width: 250px;
+}

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { PollGeneratorInput } from '@/types/common';
+import { PollGeneratorChoiceInfo, PollGeneratorInput, Reaction } from '@/types/common';
 import styles from '@/styles/canvas.module.css';
 import {
   drawReaction,
@@ -9,12 +9,18 @@ import {
   getContext,
 } from '@/utils/poll-drawer';
 import { REACTION_PICTURE_PATH_MAPS } from '@/utils/constants';
+import { PollGeneratorChoice } from '@/components/poll/poll-generator-choice';
 
 type Props = {
-  input: PollGeneratorInput;
+  generatorState: PollGeneratorInput;
+  onDownloadButtonClick: (canvas: HTMLCanvasElement | null) => void;
+  onPollChoiceChange: (reaction: Reaction, value: PollGeneratorChoiceInfo) => void;
+  onTitleChange: (value: string) => void;
 };
 
-const PollDrawer = ({ input }: Props) => {
+const reactions: Reaction[] = ['like', 'celebrate', 'love', 'insightful', 'curious'];
+
+const PollDrawer = ({ generatorState, onDownloadButtonClick, onPollChoiceChange, onTitleChange }: Props) => {
   const mainCanvasRef = useRef<HTMLCanvasElement>(null);
   const titleCanvasRef = useRef<HTMLCanvasElement>(null);
   const likeCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,7 +38,7 @@ const PollDrawer = ({ input }: Props) => {
     const insightfulContext = getContext(insightfulCanvasRef.current);
     const curiousContext = getContext(curiousCanvasRef.current);
 
-    const selectedChoices = formatChoicesForDisplay(input.choices);
+    const selectedChoices = formatChoicesForDisplay(generatorState.choices);
 
     const reactionConfigs = generateReactionConfigs({
       likeContext,
@@ -42,12 +48,17 @@ const PollDrawer = ({ input }: Props) => {
       curiousContext,
     });
 
-    drawTitle(titleContext, input.title || 'Poll Title');
+    drawTitle(titleContext, generatorState.title.toUpperCase() || 'Poll Title');
 
     for (const choice of selectedChoices) {
       const config = reactionConfigs[choice.reaction];
 
-      drawReaction(config.context, choice.text, config.color, REACTION_PICTURE_PATH_MAPS[choice.reaction].mini);
+      drawReaction(
+        config.context,
+        choice.text.toUpperCase(),
+        config.color,
+        REACTION_PICTURE_PATH_MAPS[choice.reaction].mini,
+      );
     }
 
     // mainContext.clearRect(0, 0, 640, 360);
@@ -64,18 +75,49 @@ const PollDrawer = ({ input }: Props) => {
         mainContext.drawImage(config.context.canvas, x, 90, 120, 340);
       });
     }, 400);
-  }, [input]);
+  }, [generatorState]);
 
   return (
-    <div>
-      <canvas id="poll" width="640" height="360" className={styles.canvas} ref={mainCanvasRef} />
-      <canvas id="poll-title" width="600" height="50" className="sub-draw" ref={titleCanvasRef} />
-      <canvas id="like-reaction" width="120" height="340" className="sub-draw" ref={likeCanvasRef} />
-      <canvas id="celebrate-reaction" width="120" height="340" className="sub-draw" ref={celebrateCanvasRef} />
-      <canvas id="love-reaction" width="120" height="340" className="sub-draw" ref={loveCanvasRef} />
-      <canvas id="insightful-reaction" width="120" height="340" className="sub-draw" ref={insightfulCanvasRef} />
-      <canvas id="curious-reaction" width="120" height="340" className="sub-draw" ref={curiousCanvasRef} />
-    </div>
+    <>
+      <div>
+        <canvas id="poll" width="640" height="360" className={styles.canvas} ref={mainCanvasRef} />
+        <canvas id="poll-title" width="600" height="50" className="sub-draw" ref={titleCanvasRef} />
+        <canvas id="like-reaction" width="120" height="340" className="sub-draw" ref={likeCanvasRef} />
+        <canvas id="celebrate-reaction" width="120" height="340" className="sub-draw" ref={celebrateCanvasRef} />
+        <canvas id="love-reaction" width="120" height="340" className="sub-draw" ref={loveCanvasRef} />
+        <canvas id="insightful-reaction" width="120" height="340" className="sub-draw" ref={insightfulCanvasRef} />
+        <canvas id="curious-reaction" width="120" height="340" className="sub-draw" ref={curiousCanvasRef} />
+      </div>
+
+      <div className={styles.pollChoice}>
+        {reactions.map((reaction) => (
+          <PollGeneratorChoice
+            key={`lnkd-${reaction}`}
+            reaction={reaction}
+            value={generatorState.choices[reaction]}
+            onChange={(value) => onPollChoiceChange(reaction, value)}
+          />
+        ))}
+      </div>
+
+      <div className={styles.pollAction}>
+        <div>
+          <label htmlFor="poll-title">Poll Title</label>
+          <input
+            type="text"
+            id="poll-title"
+            value={generatorState.title}
+            placeholder="Enter the poll title here..."
+            onChange={(e) => onTitleChange(e.target.value)}
+            className={styles.inputTitle}
+          />
+        </div>
+        <div>
+          <label>When complete</label>
+          <button onClick={() => onDownloadButtonClick(mainCanvasRef.current)}>Download</button>
+        </div>
+      </div>
+    </>
   );
 };
 
