@@ -1,46 +1,39 @@
 import { useReducer } from 'react';
-import {
-  DispatchAction,
-  DispatchActionChoicePayload,
-  PollGeneratorInput,
-} from '@/types/common';
+import { DispatchAction, DispatchActionChoicePayload, PollGeneratorInput } from '@/types/common';
 
 const initialState: PollGeneratorInput = {
-  title: ``,
+  title: 'WHAT WOULD YOU PREFER?',
   choices: {
     like: {
-      checked: false,
-      text: ``,
+      checked: true,
+      text: 'WORK FROM HOME',
     },
     celebrate: {
-      checked: false,
-      text: ``,
+      checked: true,
+      text: 'OFFICE',
     },
     love: {
       checked: false,
-      text: ``,
+      text: 'BOTH',
     },
     insightful: {
       checked: false,
-      text: ``,
+      text: 'NONE',
     },
     curious: {
       checked: false,
-      text: ``,
+      text: "I'M JUST CURIOUS",
     },
   },
 };
 
-const reducer = (
-  state: PollGeneratorInput,
-  action: DispatchAction,
-): PollGeneratorInput => {
+const reducer = (state: PollGeneratorInput, action: DispatchAction): PollGeneratorInput => {
   const { type } = action;
 
   switch (type) {
-    case `title`:
+    case 'title':
       return { ...state, title: action.payload };
-    case `choice`:
+    case 'choice':
       return {
         ...state,
         choices: {
@@ -52,7 +45,7 @@ const reducer = (
         },
       };
     default:
-      throw new Error(`Unknown dispatch action type!`);
+      throw new Error('Unknown dispatch action type!');
   }
 };
 
@@ -60,11 +53,11 @@ export const usePollGeneratorState = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const updateTitle = (value: string) => {
-    dispatch({ type: `title`, payload: value });
+    dispatch({ type: 'title', payload: value });
   };
 
   const updateChoice = (value: DispatchActionChoicePayload) => {
-    dispatch({ type: `choice`, payload: value });
+    dispatch({ type: 'choice', payload: value });
   };
 
   return {

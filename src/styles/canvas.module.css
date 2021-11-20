@@ -1,0 +1,19 @@
+.canvas {
+  border: solid 2px #000;
+}
+.titleCanvas {
+  border: solid 2px red;
+  display: none;
+}
+.likeCanvas {
+  border: solid 2px blue;
+  display: none;
+}
+.celebrateCanvas {
+  border: solid 2px green;
+  display: none;
+}
+.loveCanvas {
+  border: solid 2px hotpink;
+  display: none;
+}

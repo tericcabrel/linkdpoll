@@ -4,9 +4,6 @@
   align-items: center;
   padding-bottom: 30px;
 }
-.canvas {
-  border: solid 2px #000;
-}
 .pollChoice {
   width: 100%;
   display: flex;

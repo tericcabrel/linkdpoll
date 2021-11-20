@@ -25,3 +25,21 @@ type DispatchActionTitle = Action<'title', string>;
 type DispatchActionChoice = Action<'choice', DispatchActionChoicePayload>;
 
 export type DispatchAction = DispatchActionTitle | DispatchActionChoice;
+
+export type PictureSize = {
+  mini: string;
+  normal: string;
+};
+
+export type ReactionConfig = {
+  color: string;
+  context: CanvasRenderingContext2D;
+};
+
+export type GenerateReactionConfigsArgs = {
+  likeContext: CanvasRenderingContext2D;
+  celebrateContext: CanvasRenderingContext2D;
+  loveContext: CanvasRenderingContext2D;
+  insightfulContext: CanvasRenderingContext2D;
+  curiousContext: CanvasRenderingContext2D;
+};

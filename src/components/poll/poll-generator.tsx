@@ -2,22 +2,14 @@ import styles from '@/styles/poll-generator.module.css';
 import { PollGeneratorChoiceInfo, Reaction } from '@/types/common';
 import { usePollGeneratorState } from '@/hooks/usePollGenerateState';
 import { PollGeneratorChoice } from '@/components/poll/poll-generator-choice';
+import { PollDrawer } from '@/components/poll/poll-drawer';
 
-const reactions: Reaction[] = [
-  `like`,
-  `celebrate`,
-  `love`,
-  `insightful`,
-  `curious`,
-];
+const reactions: Reaction[] = ['like', 'celebrate', 'love', 'insightful', 'curious'];
 
 const PollGenerator = () => {
   const { generatorState, updateChoice, updateTitle } = usePollGeneratorState();
 
-  const handlePollChoiceChange = (
-    reaction: Reaction,
-    choiceInfo: PollGeneratorChoiceInfo,
-  ) => {
+  const handlePollChoiceChange = (reaction: Reaction, choiceInfo: PollGeneratorChoiceInfo) => {
     updateChoice({
       reaction,
       ...choiceInfo,
@@ -27,7 +19,7 @@ const PollGenerator = () => {
   return (
     <div className={styles.container}>
       <h1>LinkedIn Reaction Poll Generator</h1>
-      <canvas id="poll" width="640" height="360" className={styles.canvas} />
+      <PollDrawer input={generatorState} />
       <div className={styles.pollChoice}>
         {reactions.map((reaction) => (
           <PollGeneratorChoice

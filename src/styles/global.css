@@ -45,3 +45,7 @@ button {
   min-width: 140px;
   font-size: 14px;
 }
+
+.sub-draw {
+  display: none;
+}

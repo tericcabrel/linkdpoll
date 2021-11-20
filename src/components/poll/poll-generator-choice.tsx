@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 import Image from 'next/image';
 
 import { PollGeneratorChoiceInfo, Reaction } from '@/types/common';
-import { reactionPicturePathMaps } from '@/utils/constants';
+import { REACTION_PICTURE_PATH_MAPS } from '@/utils/constants';
 import styles from '@/styles/poll-generator-choice.module.css';
 
 type Props = {
@@ -23,17 +23,8 @@ const PollGeneratorChoice = ({ reaction, value, onChange }: Props) => {
   return (
     <div className="generator-choice">
       <label htmlFor="reaction-select" className={styles.label}>
-        <input
-          type="checkbox"
-          checked={value.checked}
-          onClick={toggleReactionChange}
-        />
-        <Image
-          src={reactionPicturePathMaps[reaction]}
-          alt={`${reaction} picture`}
-          width={72}
-          height={72}
-        />
+        <input type="checkbox" checked={value.checked} onChange={toggleReactionChange} />
+        <Image src={REACTION_PICTURE_PATH_MAPS[reaction].normal} alt={`${reaction} picture`} width={72} height={72} />
       </label>
       <input
         type="text"
