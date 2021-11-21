@@ -2,27 +2,27 @@ import { useReducer } from 'react';
 import { DispatchAction, DispatchActionChoicePayload, PollGeneratorInput } from '@/types/common';
 
 const initialState: PollGeneratorInput = {
-  title: 'WHAT WOULD YOU PREFER?',
+  title: '',
   choices: {
     like: {
-      checked: true,
-      text: 'WORK FROM HOME',
+      checked: false,
+      text: '',
     },
     celebrate: {
-      checked: true,
-      text: 'OFFICE',
+      checked: false,
+      text: '',
     },
     love: {
-      checked: true,
-      text: 'BOTH',
+      checked: false,
+      text: '',
     },
     insightful: {
-      checked: true,
-      text: 'NONE',
+      checked: false,
+      text: '',
     },
     curious: {
-      checked: true,
-      text: "I'M JUST CURIOUS",
+      checked: false,
+      text: '',
     },
   },
 };

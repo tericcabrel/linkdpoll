@@ -47,12 +47,12 @@ const PollDrawer = ({ generatorState, onDownloadButtonClick, onPollChoiceChange,
       curiousContext,
     });
 
-    drawTitle(titleContext, generatorState.title.toUpperCase() || 'Poll Title');
+    drawTitle(titleContext, generatorState.title || 'Poll Title');
 
     drawReactions(selectedChoices, reactionConfigs).then(() => {
       mainContext.clearRect(0, 0, 640, 360);
       mainContext.fillStyle = '#fff';
-      // mainContext.fillRect(0, 0, 640, 360);
+      mainContext.fillRect(0, 0, 640, 360);
       mainContext.drawImage(titleContext.canvas, 20, 20, 600, 50);
 
       const xPosition = 640 / 2 - (120 * selectedChoices.length) / 2;

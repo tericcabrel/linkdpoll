@@ -95,7 +95,7 @@ const drawLikeTitle = (context: CanvasRenderingContext2D, text: string) => {
 };
 
 const loadPicture = (context: CanvasRenderingContext2D, pictureURL: string) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     const image = new Image(50, 50);
     image.addEventListener(
       'load',
@@ -127,12 +127,7 @@ const drawReactions = async (selectedChoices: EnhancedChoice[], reactionConfigs:
   const promises = selectedChoices.map(async (choice) => {
     const config = reactionConfigs[choice.reaction];
 
-    await drawReaction(
-      config.context,
-      choice.text.toUpperCase(),
-      config.color,
-      REACTION_PICTURE_PATH_MAPS[choice.reaction].mini,
-    );
+    await drawReaction(config.context, choice.text, config.color, REACTION_PICTURE_PATH_MAPS[choice.reaction].mini);
   });
 
   return Promise.all(promises);

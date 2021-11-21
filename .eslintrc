@@ -2,7 +2,7 @@
   "plugins": ["prettier"],
   "extends": ["next", "next/core-web-vitals", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "camelcase": "off",
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": "off",
@@ -10,7 +10,7 @@
     "react/no-unused-prop-types": "off",
     "react/require-default-props": "off",
     "import/extensions": [
-      "error",
+      "warn",
       "ignorePackages",
       {
         "ts": "never",
@@ -21,14 +21,13 @@
     ],
     "quotes": "off",
     "jsx-a11y/anchor-is-valid": [
-      "error",
+      "warn",
       {
         "components": ["Link"],
         "specialLink": ["hrefLeft", "hrefRight"],
         "aspects": ["invalidHref", "preferButton"]
       }
-    ],
-    "max-len": ["error", 120]
+    ]
   },
   "overrides": [
     {
@@ -49,7 +48,8 @@
           {
             "avoidEscape": true
           }
-        ]
+        ],
+        "max-len": ["warn", 120]
       }
     }
   ]
